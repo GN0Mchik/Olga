@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Nails & Lash Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Montserrat:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px 20px 40px;
+        font-family: "Montserrat", sans-serif;
+        background: #120608;
+        overflow-x: hidden;
+      }
+
+      /* Фоновые блики */
+      .bg-orb {
+        position: fixed;
+        border-radius: 50%;
+        pointer-events: none;
+        filter: blur(80px);
+      }
+      .bg-orb-1 {
+        width: 340px;
+        height: 340px;
+        top: -80px;
+        left: -80px;
+        background: radial-gradient(
+          circle,
+          rgba(160, 40, 70, 0.55) 0%,
+          transparent 70%
+        );
+      }
+      .bg-orb-2 {
+        width: 260px;
+        height: 260px;
+        bottom: -60px;
+        right: -60px;
+        background: radial-gradient(
+          circle,
+          rgba(120, 20, 50, 0.4) 0%,
+          transparent 70%
+        );
+      }
+      .bg-orb-3 {
+        width: 200px;
+        height: 200px;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: radial-gradient(
+          circle,
+          rgba(180, 60, 90, 0.2) 0%,
+          transparent 70%
+        );
+      }
+
+      /* Карточка */
+      .card {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 400px;
+        background: rgba(30, 8, 14, 0.72);
+        border: 1px solid rgba(200, 100, 130, 0.18);
+        border-radius: 28px;
+        padding: 44px 32px 36px;
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        box-shadow:
+          0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+          0 32px 64px rgba(0, 0, 0, 0.6),
+          0 0 80px rgba(180, 60, 90, 0.08);
+      }
+
+      /* Заголовок */
+      .brand-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 52px;
+        font-weight: 300;
+        letter-spacing: 0.18em;
+        color: #f0d8de;
+        text-align: center;
+        line-height: 1;
+        margin-bottom: 8px;
+      }
+      .brand-sub {
+        font-size: 10px;
+        font-weight: 300;
+        letter-spacing: 0.28em;
+        color: rgba(220, 160, 175, 0.6);
+        text-align: center;
+        text-transform: uppercase;
+        margin-bottom: 28px;
+      }
+
+      /* Разделитель */
+      .divider {
+        width: 56px;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(220, 130, 155, 0.6),
+          transparent
+        );
+        margin: 0 auto 32px;
+      }
+
+      /* Поля */
+      .field {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        font-size: 9px;
+        font-weight: 400;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: rgba(220, 160, 175, 0.55);
+        margin-bottom: 9px;
+      }
+
+      input {
+        width: 100%;
+        padding: 15px 18px;
+        font-size: 15px;
+        font-family: "Montserrat", sans-serif;
+        font-weight: 300;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(220, 130, 155, 0.2);
+        border-radius: 14px;
+        color: #f0d8de;
+        outline: none;
+        -webkit-appearance: none;
+        transition:
+          border-color 0.2s,
+          background 0.2s,
+          box-shadow 0.2s;
+      }
+      input:focus {
+        border-color: rgba(220, 130, 155, 0.5);
+        background: rgba(255, 255, 255, 0.09);
+        box-shadow: 0 0 0 3px rgba(200, 100, 130, 0.1);
+      }
+      input::placeholder {
+        color: rgba(220, 160, 175, 0.3);
+      }
+
+      /* Кнопка */
+      .btn {
+        width: 100%;
+        padding: 17px;
+        margin-top: 8px;
+        font-family: "Montserrat", sans-serif;
+        font-size: 12px;
+        font-weight: 400;
+        letter-spacing: 0.26em;
+        text-transform: uppercase;
+        color: #fff;
+        background: linear-gradient(
+          135deg,
+          #d4688a 0%,
+          #b84868 50%,
+          #9c3555 100%
+        );
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        box-shadow:
+          0 6px 28px rgba(180, 60, 100, 0.45),
+          0 2px 8px rgba(0, 0, 0, 0.3);
+        transition:
+          opacity 0.2s,
+          transform 0.15s,
+          box-shadow 0.2s;
+      }
+      .btn:active {
+        opacity: 0.88;
+        transform: scale(0.98);
+      }
+      .btn:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      /* Футер */
+      .footer-text {
+        font-size: 9px;
+        font-weight: 300;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: rgba(220, 160, 175, 0.28);
+        text-align: center;
+        margin-top: 22px;
+      }
+
+      /* Ошибка */
+      .error-msg {
+        display: none;
+        font-size: 11px;
+        color: #f4a0b0;
+        margin-top: 6px;
+        padding: 8px 12px;
+        background: rgba(180, 60, 90, 0.2);
+        border-radius: 8px;
+        letter-spacing: 0.03em;
+      }
+      .error-msg.visible {
+        display: block;
+      }
+
+      /* Лоадер */
+      .spinner {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top-color: #fff;
+        border-radius: 50%;
+        animation: spin 0.7s linear infinite;
+        vertical-align: middle;
+        margin-right: 8px;
+      }
+
+      /* Успех */
+      .state {
+        display: none;
+      }
+      .state.active {
+        display: block;
+      }
+
+      .success-wrap {
+        text-align: center;
+        padding: 16px 0;
+      }
+      .success-icon {
+        font-size: 60px;
+        margin-bottom: 20px;
+        display: block;
+        animation: pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+      .success-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 30px;
+        font-weight: 300;
+        letter-spacing: 0.08em;
+        color: #f0d8de;
+        margin-bottom: 10px;
+      }
+      .success-sub {
+        font-size: 13px;
+        font-weight: 300;
+        color: rgba(220, 160, 175, 0.6);
+        line-height: 1.7;
+        letter-spacing: 0.03em;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes pop {
+        0% {
+          transform: scale(0.4);
+          opacity: 0;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+    <div class="bg-orb bg-orb-3"></div>
+
+    <div class="card">
+      <!-- Форма -->
+      <div id="formState" class="state active">
+        <div class="brand-title">NAILS</div>
+        <div class="brand-sub">Studio &amp; Beauty</div>
+        <div class="divider"></div>
+
+        <div class="field">
+          <label>Имя</label>
+          <input
+            id="nameInput"
+            type="text"
+            placeholder="Ваше имя"
+            autocomplete="name"
+          />
+        </div>
+
+        <div class="field">
+          <label>Телефон</label>
+          <input
+            id="phoneInput"
+            type="tel"
+            placeholder="+7 (___) ___-__-__"
+            autocomplete="tel"
+          />
+        </div>
+
+        <div id="errorMsg" class="error-msg"></div>
+
+        <button id="submitBtn" class="btn" onclick="submitForm()">
+          Записаться
+        </button>
+
+        <div class="footer-text">Perfect nails every time</div>
+      </div>
+
+      <!-- Успех -->
+      <div id="successState" class="state">
+        <div class="success-wrap">
+          <span class="success-icon">🌸</span>
+          <div class="success-title">Готово!</div>
+          <div class="success-sub">
+            Данные отправлены.<br />Ольга свяжется с вами для подтверждения
+            записи.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const tg = window.Telegram?.WebApp;
+      if (tg) {
+        tg.ready();
+        tg.expand();
+      }
+
+      // Имя из Telegram
+      const tgUser = tg?.initDataUnsafe?.user;
+      if (tgUser) {
+        const name = [tgUser.first_name, tgUser.last_name]
+          .filter(Boolean)
+          .join(" ");
+        if (name) document.getElementById("nameInput").value = name;
+      }
+
+      // Маска телефона
+      const phoneInput = document.getElementById("phoneInput");
+      phoneInput.addEventListener("input", function () {
+        let v = this.value.replace(/\D/g, "");
+        if (v.startsWith("8")) v = "7" + v.slice(1);
+        if (v.length > 11) v = v.slice(0, 11);
+        let f = "";
+        if (v.length === 0) f = "";
+        else if (v.length <= 1) f = "+" + v;
+        else if (v.length <= 4) f = `+${v[0]} (${v.slice(1)}`;
+        else if (v.length <= 7) f = `+${v[0]} (${v.slice(1, 4)}) ${v.slice(4)}`;
+        else if (v.length <= 9)
+          f = `+${v[0]} (${v.slice(1, 4)}) ${v.slice(4, 7)}-${v.slice(7)}`;
+        else
+          f = `+${v[0]} (${v.slice(1, 4)}) ${v.slice(4, 7)}-${v.slice(7, 9)}-${v.slice(9)}`;
+        this.value = f;
+      });
+
+      async function submitForm() {
+        const name = document.getElementById("nameInput").value.trim();
+        const phone = document.getElementById("phoneInput").value.trim();
+        const err = document.getElementById("errorMsg");
+        const btn = document.getElementById("submitBtn");
+        const digits = phone.replace(/\D/g, "");
+
+        if (!name) {
+          showErr("Введите ваше имя");
+          return;
+        }
+        if (digits.length < 11) {
+          showErr("Введите корректный номер телефона");
+          return;
+        }
+        err.classList.remove("visible");
+
+        const telegramId = tgUser?.id || 0;
+
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner"></span>Отправляем...';
+
+        // ⬇️  ЗАМЕНИ НА PRODUCTION URL узла "Webhook Ольга" из n8n
+        const WEBHOOK_URL = "ВСТАВЬ_СЮДА_URL_ВЕБХУКА_ОЛЬГИ";
+
+        try {
+          const res = await fetch(WEBHOOK_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              phone: digits,
+              name,
+              telegram_id: telegramId,
+            }),
+          });
+          if (!res.ok) throw new Error(res.status);
+
+          document.getElementById("formState").classList.remove("active");
+          document.getElementById("successState").classList.add("active");
+          setTimeout(() => tg?.close(), 2500);
+        } catch (e) {
+          showErr("Ошибка отправки. Попробуйте ещё раз.");
+          btn.disabled = false;
+          btn.innerHTML = "Записаться";
+        }
+      }
+
+      function showErr(msg) {
+        const el = document.getElementById("errorMsg");
+        el.textContent = msg;
+        el.classList.add("visible");
+      }
+    </script>
+  </body>
+</html>
